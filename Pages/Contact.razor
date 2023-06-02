@@ -1,0 +1,76 @@
+@page "/contact"
+
+<PageTitle>Contacto</PageTitle>
+
+<h1 class="mt-2 text-center">Contacto</h1>
+
+<form @onsubmit="sendData" style="margin: 3rem;">
+    <div class="mb-2 form-group">
+        <label> <b>Nombre</b> </label>
+        <input @bind="Nombre"  type="text" class="form-control">
+    </div> 
+    <div class="mb-2 form-group">
+        <label><b>Correo Electronico</b></label>
+        <input @bind="Email"  type="email" class="form-control">
+    </div> 
+    <div class="mb-2 form-group">
+        <label><b>Telefono</b></label>
+        <input @bind="Telefono"  type="text" class="form-control">
+    </div> 
+    <div class="mb-3 form-group">
+        <label><b>Mensaje</b></label>
+        <input @bind="Mensaje"  type="text" class="form-control">
+    </div> 
+    <button class="btn btn-outline-primary"><b> Enviar</b></button>
+</form>
+ <hr>
+
+@foreach (User user in usuarios)
+{
+    <p class="fs-3 text-center">
+        Hola, soy <b> @user.Nombre</b>, Quiero contactarme con ustedes por lo siguiente: <br>
+        <b> @user.Mensaje.</b> <br>
+        Pueden comunicarse conmigo en: <br>
+        <b>Correo electrónico: </b>@user.Email <br>
+        <b>Teléfono: </b>@user.Telefono <br>
+    </p>
+    <hr>
+}
+
+
+
+@code{
+    private string? Nombre {get; set;}
+    private string? Email {get; set;}
+    private string? Telefono {get; set;}
+    private string? Mensaje {get; set;}
+    private List<User> usuarios = new List<User>();
+
+    private void sendData(){
+        if (this.Nombre != "" && this.Email != "" && this.Telefono != "" && this.Mensaje != ""){
+            this.usuarios.Add(new User(this.Nombre, this.Email, this.Telefono, this.Mensaje));
+            this.Nombre = "";
+            this.Email = "";
+            this.Telefono = "";
+            this.Mensaje = "";
+        }
+    }
+
+    public class User{
+        public string Nombre;
+        public string Email;
+        public string Telefono;
+        public string Mensaje;
+
+        public User(string nombre, string email, string telefono, string mensaje){
+            this.Nombre = nombre;
+            this.Email = email;
+            this.Telefono = telefono;
+            this.Mensaje = mensaje;
+        }
+
+
+    }
+    
+
+}

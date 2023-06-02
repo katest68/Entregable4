@@ -1,0 +1,37 @@
+@page "/usuarios/{id}/details"
+@using Model;
+@using Util;
+@inject ApiCliente cliente;
+
+<PageTitle>Detalle</PageTitle>
+
+<h1 class="m-3 text-center">Detalle</h1>
+
+<div class="container align-item-center">
+    <div class="card">
+    <div class="card-header text-center fs-2">
+        <b>@usuario.name</b>
+    </div>
+    <ul class="list-group list-group-flush fs-4">
+        <li class="list-group-item"><b>Username:</b> @usuario.username</li>
+        <li class="list-group-item"><b>Correo:</b> @usuario.email</li>
+        <li class="list-group-item"><b>Dirección:</b> @usuario.address.street, @usuario.address.suite, @usuario.address.city, @usuario.address.zipcode <br> <b>Geo:</b>@usuario.address.geo.lat, @usuario.address.geo.lng</li>
+        <li class="list-group-item"><b>Telefono:</b> @usuario.phone</li>
+        <li class="list-group-item"><b>Website:</b> @usuario.website</li>
+        <li class="list-group-item"><b>Company:</b> @usuario.company.name, @usuario.company.catchPhrase, @usuario.company.bs</li>
+        <li class="list-group-item text-center"><a href="/usuarios"><b> &lt;- Volver</b></a></li>
+    </ul>
+</div>
+</div>
+
+
+
+@code{
+    [Parameter]
+    public string id {get; set;}
+
+    private User usuario = new User();
+    protected override async Task OnInitializedAsync(){
+        usuario = await cliente.GetUser(id);
+    }
+}
